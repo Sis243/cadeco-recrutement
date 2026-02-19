@@ -1,0 +1,116 @@
+/* web/src/pages/AdminLogin.css */
+
+.adminLoginPage{
+  padding: 44px 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.adminLoginCard{
+  width: min(760px, 100%);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(10, 20, 40, 0.42);
+  box-shadow: 0 18px 70px rgba(0,0,0,0.35);
+  padding: 28px 26px;
+  backdrop-filter: blur(10px);
+}
+
+.adminLoginTop{
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.adminChip{
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(234,242,255,0.85);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.adminTitle{
+  margin: 0;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #EAF2FF;
+}
+
+.adminSub{
+  margin: 0;
+  color: rgba(234,242,255,0.72);
+}
+
+.adminForm{
+  display: grid;
+  gap: 14px;
+}
+
+.adminField{
+  display: grid;
+  gap: 8px;
+}
+
+.adminField label{
+  color: rgba(234,242,255,0.85);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.adminField input{
+  height: 44px;
+  border-radius: 12px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.08);
+  color: #EAF2FF;
+  outline: none;
+}
+
+.adminField input:focus{
+  border-color: rgba(120,200,255,0.35);
+  box-shadow: 0 0 0 3px rgba(120,200,255,0.12);
+}
+
+.adminError{
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,80,80,0.35);
+  background: rgba(140,20,20,0.20);
+  color: #FF8A8A;
+  font-weight: 700;
+}
+
+.adminActions{
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2px;
+}
+
+.adminBtn{
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.20);
+  background: rgba(27, 135, 122, 0.32);
+  color: #EAF2FF;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.adminBtn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.adminHint{
+  margin-top: 8px;
+  color: rgba(234,242,255,0.65);
+  font-size: 12px;
+}

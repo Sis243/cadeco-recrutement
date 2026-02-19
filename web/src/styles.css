@@ -1,0 +1,427 @@
+/* =========================
+   PALETTE CADECO
+========================= */
+:root{
+  --bg: #0b1220;
+  --card: rgba(255,255,255,.06);
+  --card2: rgba(255,255,255,.09);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --stroke: rgba(255,255,255,.12);
+
+  /* Couleurs logo */
+  --primary: #00B5D8;   /* turquoise */
+  --primary2: #2563EB;  /* bleu profond */
+  --gold: #F6C344;      /* doré */
+  --red: #EF4444;       /* étoile */
+
+  --shadow: 0 18px 50px rgba(0,0,0,.35);
+  --radius: 18px;
+}
+
+/* =========================
+   BASE
+========================= */
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(900px 500px at 20% 10%, rgba(0,181,216,.18), transparent 55%),
+    radial-gradient(900px 500px at 80% 20%, rgba(37,99,235,.18), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.06), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+a{ color: inherit; text-decoration: none; }
+
+.container{
+  width: min(1140px, 92vw);
+  margin: 0 auto;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.nav{
+  position: sticky;
+  top:0;
+  z-index: 10;
+  backdrop-filter: blur(14px);
+  background: rgba(11,18,32,.65);
+  border-bottom: 1px solid var(--stroke);
+}
+
+.navInner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 14px 0;
+}
+
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.logoBox{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background: linear-gradient(135deg, rgba(0,181,216,.22), rgba(246,195,68,.14));
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.logoImg{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:6px;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+}
+
+.brandTitle{
+  font-weight: 800;
+  letter-spacing:.2px;
+  line-height:1.1;
+}
+
+.brandSub{
+  font-size: 12px;
+  color: var(--muted);
+  margin-top:2px;
+}
+
+.navLinks{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.pill{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  transition: .2s;
+  font-size: 14px;
+}
+
+.pill:hover{
+  background: rgba(255,255,255,.07);
+}
+
+.pillActive{
+  border-color: rgba(246,195,68,.45);
+  background: linear-gradient(135deg, rgba(0,181,216,.18), rgba(37,99,235,.12));
+}
+
+/* =========================
+   HERO
+========================= */
+.hero{
+  padding: 44px 0 18px;
+}
+
+.heroGrid{
+  display:grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap: 18px;
+}
+
+@media (max-width: 980px){
+  .heroGrid{ grid-template-columns: 1fr; }
+}
+
+.card{
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,.03));
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.heroCard{
+  padding: 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroCard:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(500px 220px at 20% 10%, rgba(0,181,216,.25), transparent 60%),
+    radial-gradient(500px 220px at 80% 20%, rgba(246,195,68,.25), transparent 60%);
+  opacity:.6;
+  pointer-events:none;
+}
+
+.heroCard > *{ position: relative; }
+
+.hTitle{
+  font-size: clamp(28px, 3.1vw, 44px);
+  margin:0 0 10px;
+  line-height:1.1;
+  letter-spacing: -.4px;
+}
+
+.hText{
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height:1.7;
+}
+
+/* =========================
+   BOUTONS
+========================= */
+.btnRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 18px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.05);
+  cursor:pointer;
+  transition:.2s;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.btn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.08);
+}
+
+.btnPrimary{
+  background: linear-gradient(135deg, rgba(0,181,216,.22), rgba(246,195,68,.18));
+  border-color: rgba(255,255,255,.18);
+}
+
+/* Disabled visible */
+button.btn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.12);
+}
+
+button.btnPrimary:disabled{
+  opacity: 0.65;
+  background: linear-gradient(135deg, rgba(0,181,216,.16), rgba(246,195,68,.12));
+}
+
+/* =========================
+   SECTIONS
+========================= */
+.section{
+  padding: 12px 0 54px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 980px){
+  .grid3{ grid-template-columns: 1fr; }
+}
+
+.feature{
+  padding: 16px;
+}
+
+.feature h3{
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.feature p{
+  margin: 0;
+  color: var(--muted);
+  line-height:1.6;
+  font-size: 14px;
+}
+
+/* =========================
+   FORMULAIRES
+========================= */
+.formWrap{ padding: 18px; }
+
+.formGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 980px){
+  .formGrid{ grid-template-columns: 1fr; }
+}
+
+.label{
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.input{
+  width:100%;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
+  outline: none;
+}
+
+.input:focus{
+  border-color: rgba(0,181,216,.45);
+}
+
+input.input::placeholder{
+  color: rgba(255,255,255,.45);
+}
+
+/* ===== Fix SELECT / dropdown ===== */
+select.input{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: rgba(255,255,255,.04);
+  color: var(--text);
+  border: 1px solid var(--stroke);
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.65) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.65) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+
+  padding-right: 38px;
+}
+
+select.input option{
+  background: #0b1220;
+  color: rgba(255,255,255,.92);
+}
+
+/* ===== File input (plus propre) ===== */
+input[type="file"].input{
+  padding: 10px 12px;
+}
+
+input[type="file"].input::-webkit-file-upload-button{
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+input[type="file"].input::-webkit-file-upload-button:hover{
+  background: rgba(255,255,255,.10);
+}
+
+/* =========================
+   BADGES ET TABLES
+========================= */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.table{
+  width:100%;
+  border-collapse: collapse;
+  overflow:hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+}
+
+.table th, .table td{
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
+  text-align:left;
+  font-size: 13px;
+}
+
+.table th{
+  color: var(--muted);
+  font-weight: 700;
+  background: rgba(255,255,255,.03);
+}
+
+.table tr:hover td{
+  background: rgba(255,255,255,.03);
+}
+
+/* =========================
+   SIDE CARD (KPIs)
+========================= */
+.sideCard{ padding: 18px; }
+
+.kpi{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  margin-top: 10px;
+}
+.kpi b{ font-size: 18px; }
+
+/* =========================
+   FOOTER + UTILS
+========================= */
+.footer{
+  padding: 22px 0;
+  border-top: 1px solid var(--stroke);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.small{
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.alert{
+  margin-top: 10px;
+  color: var(--red);
+  font-size: 13px;
+}

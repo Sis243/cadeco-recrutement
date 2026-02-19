@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "title": "Chargés de relation avec les clients",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 2,
+    "title": "Délégués commerciaux",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 3,
+    "title": "Analystes crédits",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 4,
+    "title": "Contrôleurs permanents (internes)",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 5,
+    "title": "Agents de recouvrement",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 6,
+    "title": "Chef caissiers (Coordonnateur)",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 7,
+    "title": "Caissiers",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 8,
+    "title": "Auditeurs internes",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 9,
+    "title": "Informaticiens experts en réseaux",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 10,
+    "title": "Informaticiens experts en conception des systèmes",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  },
+  {
+    "id": 11,
+    "title": "Ressources Humaines",
+    "department": "CADECO",
+    "location": "Kinshasa",
+    "isActive": true,
+    "createdAt": "2026-02-17T15:32:05.679Z"
+  }
+]

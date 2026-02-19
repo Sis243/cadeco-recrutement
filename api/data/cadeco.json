@@ -1,0 +1,106 @@
+{
+  "jobs": [
+    {
+      "id": "job_9f7cfcfe46245d5847bc5dfc",
+      "title": "Chargé relation clients",
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.618Z",
+      "updatedAt": "2026-02-17T12:57:45.619Z"
+    },
+    {
+      "id": "job_4e830cbd3f8089fb242ada38",
+      "title": "Délégué commercial",
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.619Z",
+      "updatedAt": "2026-02-17T12:57:45.619Z"
+    },
+    {
+      "id": "job_330dd8f4ac89d155cf524a8d",
+      "title": "Analyste crédits",
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.619Z",
+      "updatedAt": "2026-02-17T12:57:45.619Z"
+    },
+    {
+      "id": "job_8073b4c8508bedeacb700b6e",
+      "title": "Contrôleur permanent (interne)",
+      "order": 4,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.619Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_ece3380bcaee83b84c57b894",
+      "title": "Agent de recouvrement",
+      "order": 5,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_5a95ef17102fa540d9b74220",
+      "title": "Chef caissier (Coordonnateur)",
+      "order": 6,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_d59b929a3ab38b1224832e4c",
+      "title": "Caissier",
+      "order": 7,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_33065ac68fba93033c01c4ee",
+      "title": "Auditeur interne",
+      "order": 8,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_bb81c1831e42f9caa1076709",
+      "title": "Informaticien expert réseaux",
+      "order": 9,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_e2224cdcc93410ffac2e8a43",
+      "title": "Informaticien expert développement",
+      "order": 10,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    },
+    {
+      "id": "job_b7f9054b17000124212114f3",
+      "title": "Ressources Humaines",
+      "order": 11,
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:45.620Z",
+      "updatedAt": "2026-02-17T12:57:45.620Z"
+    }
+  ],
+  "applications": [],
+  "admins": [
+    {
+      "id": "adm_298f53103f3bc406a230d081",
+      "email": "admin@cadeco.cd",
+      "passHash": "bc78e58d55cde1346e68f8e5fe588dedf62fa457aa646a500a53347faff6ee24",
+      "role": "ADMIN",
+      "fullName": "Administrateur CADECO",
+      "isActive": true,
+      "createdAt": "2026-02-17T12:57:46.281Z",
+      "updatedAt": "2026-02-17T13:15:20.852Z"
+    }
+  ],
+  "audit_logs": []
+}

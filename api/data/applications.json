@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "fullName": "Flory BOKAKO LOIMI",
+    "email": "bokakoflory@gmail.com",
+    "phone": "0810105856",
+    "city": "Kinshasa",
+    "yearsExp": 3,
+    "jobId": 5,
+    "jobTitle": "Agents de recouvrement",
+    "cvPath": "/uploads/1771342637174_fiche_CD-2026-B976D6.pdf",
+    "idPath": null,
+    "status": "RECU",
+    "trackingCode": "CD-2026-A5RYBD",
+    "createdAt": "2026-02-17T15:37:17.181Z"
+  },
+  {
+    "id": 2,
+    "fullName": "Flory BOKAKO LOIMI",
+    "email": "bokakoflory@gmail.com",
+    "phone": "0810105856",
+    "city": "Kinshasa",
+    "yearsExp": 3,
+    "jobId": 5,
+    "jobTitle": "Agents de recouvrement",
+    "cvPath": "/uploads/1771342763801_fiche_CD-2026-B976D6.pdf",
+    "idPath": null,
+    "status": "RECU",
+    "trackingCode": "CD-2026-P88DLC",
+    "createdAt": "2026-02-17T15:39:23.810Z"
+  },
+  {
+    "id": 3,
+    "fullName": "Flory BOKAKO LOIMI",
+    "email": "bokakoflory@gmail.com",
+    "phone": "0810105856",
+    "city": "Kinshasa",
+    "yearsExp": 3,
+    "jobId": 5,
+    "jobTitle": "Agents de recouvrement",
+    "cvPath": "/uploads/1771342764372_fiche_CD-2026-B976D6.pdf",
+    "idPath": null,
+    "status": "RECU",
+    "trackingCode": "CD-2026-Z3SBTR",
+    "createdAt": "2026-02-17T15:39:24.387Z"
+  },
+  {
+    "id": 4,
+    "fullName": "Flory BOKAKO LOIMI",
+    "email": "bokakoflory@gmail.com",
+    "phone": "0810105856",
+    "city": "Kinshasa",
+    "yearsExp": 0,
+    "jobId": 8,
+    "jobTitle": "Auditeurs internes",
+    "cvPath": "/uploads/1771351309283_CamScanner_17-02-2026_15.49.pdf",
+    "idPath": null,
+    "status": "RECU",
+    "trackingCode": "CD-2026-37VX5K",
+    "createdAt": "2026-02-17T18:01:49.374Z"
+  }
+]

@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum ApplicationStatus {
+  EN_COURS
+  QUALIFIE
+  ENTRETIEN
+  RETENU
+  NON_RETENU
+}
+
+model Job {
+  id           String        @id @default(cuid())
+  title        String
+  applications Application[]
+}
+
+model Application {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+
+  fullName        String
+  phone           String
+  email           String
+  city            String
+  experienceYears String
+  status          ApplicationStatus @default(EN_COURS)
+  trackingCode    String   @unique
+
+  cvPath          String
+  idPath          String?
+
+  jobId           String
+  job             Job @relation(fields: [jobId], references: [id])
+}

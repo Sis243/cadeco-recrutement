@@ -1,0 +1,226 @@
+.applyPage{
+  min-height: calc(100vh - 140px);
+  padding: 28px 16px 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.applyShell{
+  width: 100%;
+  max-width: 1100px;
+}
+
+.applyHeader{
+  margin-bottom: 16px;
+}
+
+.applyBadge{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.85);
+  font-size: 13px;
+  letter-spacing: .2px;
+}
+
+.applyHeader h1{
+  margin: 10px 0 6px;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: .2px;
+}
+
+.applyHeader p{
+  margin: 0;
+  color: rgba(255,255,255,.70);
+}
+
+.applyCard{
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+  box-shadow: 0 18px 55px rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+}
+
+.applyGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 14px;
+}
+
+@media (max-width: 860px){
+  .applyHeader h1{ font-size: 34px; }
+  .applyGrid{ grid-template-columns: 1fr; }
+}
+
+.field label{
+  display: block;
+  font-size: 14px;
+  color: rgba(255,255,255,.85);
+  margin: 0 0 8px;
+}
+
+.field label span{
+  color: #ffb3b3;
+  font-weight: 700;
+}
+
+.input, .select{
+  width: 100%;
+  height: 46px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  outline: none;
+  background: rgba(10, 15, 25, .45);
+  color: rgba(255,255,255,.92);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.input::placeholder{
+  color: rgba(255,255,255,.45);
+}
+
+.input:focus, .select:focus{
+  border-color: rgba(255, 208, 86, .45);
+  box-shadow: 0 0 0 4px rgba(255, 208, 86, .12);
+}
+
+.select{
+  cursor: pointer;
+}
+
+.hint{
+  margin-top: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,.62);
+}
+
+.fileRow{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: 46px;
+  padding: 10px 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(10, 15, 25, .35);
+}
+
+.fileBtn{
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.90);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.fileBtn input{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fileName{
+  color: rgba(255,255,255,.70);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.alert{
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.alertError{
+  background: rgba(255, 80, 80, .10);
+  border-color: rgba(255, 80, 80, .25);
+  color: rgba(255,255,255,.92);
+}
+
+.alertOk{
+  background: rgba(74, 222, 128, .10);
+  border-color: rgba(74, 222, 128, .25);
+  color: rgba(255,255,255,.92);
+}
+
+.okTitle{
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.okSub{
+  color: rgba(255,255,255,.82);
+}
+
+.actionsRow{
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.actions{
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn{
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  cursor: pointer;
+  color: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.08);
+}
+
+.btn:disabled{
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.btnPrimary{
+  border-color: rgba(255, 208, 86, .35);
+  background: linear-gradient(180deg, rgba(255,208,86,.22), rgba(255,208,86,.12));
+}
+
+.btnPrimary:hover{
+  background: linear-gradient(180deg, rgba(255,208,86,.28), rgba(255,208,86,.14));
+}
+
+.btnGhost{
+  background: rgba(255,255,255,.06);
+}
+
+.btnGhost:hover{
+  background: rgba(255,255,255,.10);
+}
+
+.btnSoft{
+  background: rgba(255,255,255,.10);
+}
