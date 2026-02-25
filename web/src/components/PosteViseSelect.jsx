@@ -1,13 +1,5 @@
-import { useEffect, useState } from "react";
-import { fetchJobs, type Job } from "../lib/api";
-
-type Props = {
-  value: string; // jobId
-  onChange: (val: string) => void;
-  required?: boolean;
-  disabled?: boolean;
-  placeholder?: string;
-};
+import { useEffect, useMemo, useState } from "react";
+import { fetchJobs } from "../lib/api";
 
 export default function PosteViseSelect({
   value,
@@ -15,8 +7,9 @@ export default function PosteViseSelect({
   required = false,
   disabled = false,
   placeholder = "Sélectionner un poste",
-}: Props) {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  excludeIds = [],
+}) {
+  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -30,7 +23,7 @@ export default function PosteViseSelect({
         const list = await fetchJobs();
         if (!mounted) return;
         setJobs(Array.isArray(list) ? list : []);
-      } catch (e: any) {
+      } catch (e) {
         if (!mounted) return;
         setErr(e?.message || "Impossible de charger les postes.");
         setJobs([]);
@@ -45,6 +38,15 @@ export default function PosteViseSelect({
     };
   }, []);
 
+  const filteredJobs = useMemo(() => {
+    const ex = new Set((excludeIds || []).filter(Boolean).map(String));
+    return (jobs || []).filter((j) => {
+      const id = String(j.id ?? "");
+      if (value && id === String(value)) return true;
+      return !ex.has(id);
+    });
+  }, [jobs, excludeIds, value]);
+
   return (
     <div style={{ display: "grid", gap: 6 }}>
       <select
@@ -55,7 +57,7 @@ export default function PosteViseSelect({
         disabled={disabled || loading}
       >
         <option value="">{loading ? "Chargement..." : placeholder}</option>
-        {jobs.map((j) => (
+        {filteredJobs.map((j) => (
           <option key={String(j.id)} value={String(j.id)}>
             {j.title}
           </option>
@@ -63,9 +65,7 @@ export default function PosteViseSelect({
       </select>
 
       {err ? (
-        <div style={{ color: "#FF8A8A", fontSize: 12 }}>
-          {err}
-        </div>
+        <div style={{ color: "#FF8A8A", fontSize: 12 }}>{err}</div>
       ) : null}
     </div>
   );

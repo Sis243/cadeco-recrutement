@@ -2,26 +2,30 @@
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Apply.css";
-import PosteViseSelect from "../components/PosteViseSelect";
 
+import PostesChoixTriple from "../components/PostesChoixTriple";
 import { submitApplication } from "../lib/api";
 
 export default function Apply() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
 
+  // Si on vient de la page Jobs avec ?jobId=...
   const preselectedJobId = params.get("jobId") || "";
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("Kinshasa");
 
-  const [jobId, setJobId] = useState(preselectedJobId);
+  // ✅ Ville (obligatoire)
+  const [city, setCity] = useState("");
+
+  // ✅ 3 choix
+  const [choice1, setChoice1] = useState(preselectedJobId);
+  const [choice2, setChoice2] = useState("");
+  const [choice3, setChoice3] = useState("");
 
   const [experienceYears, setExperienceYears] = useState("0");
-  const [cvFile, setCvFile] = useState(null);
-  const [idFile, setIdFile] = useState(null);
 
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -35,16 +39,15 @@ export default function Apply() {
   }, []);
 
   useEffect(() => {
-    if (preselectedJobId) setJobId(preselectedJobId);
+    if (preselectedJobId) setChoice1(preselectedJobId);
   }, [preselectedJobId]);
 
   function validate() {
     if (!fullName.trim()) return "Le nom complet est obligatoire.";
     if (!phone.trim()) return "Le téléphone est obligatoire.";
     if (!email.trim()) return "L’e-mail est obligatoire.";
-    if (!jobId) return "Veuillez choisir un poste.";
-    if (!cvFile) return "Le CV (PDF) est obligatoire.";
-    if (cvFile && cvFile.type !== "application/pdf") return "Le CV doit être un PDF.";
+    if (!city.trim()) return "La ville est obligatoire.";
+    if (!choice1) return "Veuillez choisir au moins le 1er poste.";
     return "";
   }
 
@@ -63,18 +66,18 @@ export default function Apply() {
     try {
       setSubmitting(true);
 
-      const form = new FormData();
-      form.append("fullName", fullName.trim());
-      form.append("phone", phone.trim());
-      form.append("email", email.trim());
-      form.append("city", city.trim());
-      form.append("jobId", jobId);
-      form.append("experienceYears", experienceYears);
+      const payload = {
+        fullName: fullName.trim(),
+        phone: phone.trim(),
+        email: email.trim(),
+        city: city.trim(), // ✅ ville envoyée
+        choice1,
+        choice2: choice2 || null,
+        choice3: choice3 || null,
+        experienceYears,
+      };
 
-      form.append("cv", cvFile);
-      if (idFile) form.append("idDoc", idFile);
-
-      const data = await submitApplication(form);
+      const data = await submitApplication(payload);
 
       setOk(true);
       setTrackingCode(data?.trackingCode || "");
@@ -99,48 +102,84 @@ export default function Apply() {
         <form className="applyCard" onSubmit={onSubmit}>
           <div className="applyGrid">
             <div className="field">
-              <label>Nom complet <span>*</span></label>
-              <input className="input" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              <label>
+                Nom complet <span>*</span>
+              </label>
+              <input
+                className="input"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
             </div>
 
             <div className="field">
-              <label>Téléphone <span>*</span></label>
-              <input className="input" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <label>
+                Téléphone <span>*</span>
+              </label>
+              <input
+                className="input"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
 
             <div className="field">
-              <label>E-mail <span>*</span></label>
-              <input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <label>
+                E-mail <span>*</span>
+              </label>
+              <input
+                className="input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <div className="field">
-              <label>Ville</label>
-              <input className="input" value={city} onChange={(e) => setCity(e.target.value)} />
+              <label>
+                Ville <span>*</span>
+              </label>
+              <input
+                className="input"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Ex : Kinshasa, Lubumbashi, Matadi..."
+              />
             </div>
 
-            <div className="field">
-              <label>Poste visé <span>*</span></label>
-              <PosteViseSelect value={jobId} onChange={(val) => setJobId(val)} required />
-              <div className="hint">
-                Astuce : tu peux aussi choisir un poste via la page <b>Postes</b>.
+            <div className="field" style={{ gridColumn: "1 / -1" }}>
+              <label>
+                Postes souhaités <span>*</span>
+              </label>
+
+              <PostesChoixTriple
+                choice1={choice1}
+                choice2={choice2}
+                choice3={choice3}
+                setChoice1={setChoice1}
+                setChoice2={setChoice2}
+                setChoice3={setChoice3}
+              />
+
+              <div className="hint" style={{ marginTop: 8 }}>
+                Astuce : tu peux aussi choisir un poste via la page <b>Postes</b>{" "}
+                (cela remplit le 1er choix).
               </div>
             </div>
 
             <div className="field">
               <label>Années d’expérience</label>
-              <select className="select" value={experienceYears} onChange={(e) => setExperienceYears(e.target.value)}>
-                {yearsOptions.map((y) => <option key={y} value={y}>{y}</option>)}
+              <select
+                className="select"
+                value={experienceYears}
+                onChange={(e) => setExperienceYears(e.target.value)}
+              >
+                {yearsOptions.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
               </select>
-            </div>
-
-            <div className="field">
-              <label>CV (PDF) <span>*</span></label>
-              <input type="file" accept="application/pdf" onChange={(e) => setCvFile(e.target.files?.[0] || null)} />
-            </div>
-
-            <div className="field">
-              <label>Pièce d’identité (PDF/JPG/PNG)</label>
-              <input type="file" accept="application/pdf,image/png,image/jpeg" onChange={(e) => setIdFile(e.target.files?.[0] || null)} />
             </div>
           </div>
 
@@ -149,12 +188,16 @@ export default function Apply() {
           {ok ? (
             <div className="alert alertOk">
               <div className="okTitle">Candidature enregistrée ✅</div>
-              <div className="okSub">Numéro de suivi : <b>{trackingCode || "—"}</b></div>
+              <div className="okSub">
+                Numéro de suivi : <b>{trackingCode || "—"}</b>
+              </div>
               <div className="actionsRow">
                 <button
                   type="button"
                   className="btn btnGhost"
-                  onClick={() => navigate(`/suivi?code=${encodeURIComponent(trackingCode)}`)}
+                  onClick={() =>
+                    navigate(`/suivi?code=${encodeURIComponent(trackingCode)}`)
+                  }
                   disabled={!trackingCode}
                 >
                   Aller au suivi
@@ -167,7 +210,11 @@ export default function Apply() {
             <button className="btn btnPrimary" type="submit" disabled={submitting}>
               {submitting ? "Soumission..." : "Soumettre"}
             </button>
-            <button className="btn btnGhost" type="button" onClick={() => navigate("/suivi")}>
+            <button
+              className="btn btnGhost"
+              type="button"
+              onClick={() => navigate("/suivi")}
+            >
               Aller au suivi
             </button>
           </div>

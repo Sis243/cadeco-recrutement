@@ -1,3 +1,4 @@
+// api/src/db.js
 const path = require("path");
 const fs = require("fs");
 const Database = require("better-sqlite3");
@@ -24,7 +25,9 @@ function open() {
 
 function hasColumn(tableName, colName) {
   const rows = open().prepare(`PRAGMA table_info(${tableName})`).all();
-  return rows.some((r) => String(r.name).toLowerCase() === String(colName).toLowerCase());
+  return rows.some(
+    (r) => String(r.name).toLowerCase() === String(colName).toLowerCase()
+  );
 }
 
 function addColumnIfMissing(tableName, colName, ddl) {
@@ -62,6 +65,12 @@ function initSchema() {
       jobId INTEGER,
       jobTitle TEXT,
 
+      -- ✅ nouveaux champs 2e/3e choix
+      choice2Id INTEGER,
+      choice2Title TEXT,
+      choice3Id INTEGER,
+      choice3Title TEXT,
+
       cvPath TEXT,
       idPath TEXT,
 
@@ -76,6 +85,13 @@ function initSchema() {
   addColumnIfMissing("applications", "yearsExp", "yearsExp INTEGER DEFAULT 0");
   addColumnIfMissing("applications", "jobId", "jobId INTEGER");
   addColumnIfMissing("applications", "jobTitle", "jobTitle TEXT");
+
+  // ✅ migrations 2e/3e choix
+  addColumnIfMissing("applications", "choice2Id", "choice2Id INTEGER");
+  addColumnIfMissing("applications", "choice2Title", "choice2Title TEXT");
+  addColumnIfMissing("applications", "choice3Id", "choice3Id INTEGER");
+  addColumnIfMissing("applications", "choice3Title", "choice3Title TEXT");
+
   addColumnIfMissing("applications", "cvPath", "cvPath TEXT");
   addColumnIfMissing("applications", "idPath", "idPath TEXT");
   addColumnIfMissing("applications", "status", "status TEXT DEFAULT 'RECU'");
@@ -93,7 +109,6 @@ function initSchema() {
       createdAt TEXT NOT NULL
     )
   `).run();
-
   addColumnIfMissing("admins", "isActive", "isActive INTEGER NOT NULL DEFAULT 1");
 
   // AUDIT LOG
@@ -146,13 +161,14 @@ function seedJobsIfEmpty() {
       });
     }
   });
-
   tx();
 }
 
 function seedAdminIfMissing({ email, password, role }) {
   const d = open();
-  const row = d.prepare(`SELECT * FROM admins WHERE email = ?`).get(String(email || ""));
+  const row = d
+    .prepare(`SELECT * FROM admins WHERE email = ?`)
+    .get(String(email || ""));
   if (row) return row;
 
   const hash = bcrypt.hashSync(String(password), 10);
@@ -161,7 +177,9 @@ function seedAdminIfMissing({ email, password, role }) {
      VALUES (?, ?, ?, 1, ?)`
   ).run(String(email), hash, role || "ADMIN", nowISO());
 
-  return d.prepare(`SELECT * FROM admins WHERE email = ?`).get(String(email));
+  return d
+    .prepare(`SELECT * FROM admins WHERE email = ?`)
+    .get(String(email));
 }
 
 function trackCode() {
@@ -174,7 +192,11 @@ function trackCode() {
 // PUBLIC
 function getJobs() {
   return open()
-    .prepare(`SELECT id, title, department, location FROM jobs WHERE isActive = 1 ORDER BY title ASC`)
+    .prepare(
+      `SELECT id, title, department, location
+       FROM jobs WHERE isActive = 1
+       ORDER BY title ASC`
+    )
     .all();
 }
 
@@ -185,12 +207,18 @@ function createApplication(payload) {
   const stmt = d.prepare(`
     INSERT INTO applications (
       fullName, email, phone, city, yearsExp,
-      jobId, jobTitle, cvPath, idPath,
+      jobId, jobTitle,
+      choice2Id, choice2Title,
+      choice3Id, choice3Title,
+      cvPath, idPath,
       status, trackingCode, createdAt
     )
     VALUES (
       @fullName, @email, @phone, @city, @yearsExp,
-      @jobId, @jobTitle, @cvPath, @idPath,
+      @jobId, @jobTitle,
+      @choice2Id, @choice2Title,
+      @choice3Id, @choice3Title,
+      @cvPath, @idPath,
       'RECU', @trackingCode, @createdAt
     )
   `);
@@ -201,28 +229,44 @@ function createApplication(payload) {
     phone: String(payload.phone || "").trim(),
     city: payload.city ? String(payload.city).trim() : null,
     yearsExp: payload.yearsExp != null ? Number(payload.yearsExp) : 0,
+
     jobId: payload.jobId != null ? Number(payload.jobId) : null,
     jobTitle: payload.jobTitle ? String(payload.jobTitle) : null,
+
+    // ✅ 2e / 3e choix
+    choice2Id: payload.choice2Id != null ? Number(payload.choice2Id) : null,
+    choice2Title: payload.choice2Title ? String(payload.choice2Title) : null,
+    choice3Id: payload.choice3Id != null ? Number(payload.choice3Id) : null,
+    choice3Title: payload.choice3Title ? String(payload.choice3Title) : null,
+
     cvPath: payload.cvPath || null,
     idPath: payload.idPath || null,
+
     trackingCode: code,
     createdAt: nowISO(),
   });
 
-  return d.prepare(`SELECT * FROM applications WHERE id = ?`).get(info.lastInsertRowid);
+  return d
+    .prepare(`SELECT * FROM applications WHERE id = ?`)
+    .get(info.lastInsertRowid);
 }
 
 function getApplicationByTracking(trackingCode) {
   return open()
     .prepare(
-      `SELECT id, fullName, email, phone, city, yearsExp, jobTitle, status, trackingCode, createdAt
+      `SELECT
+        id, fullName, email, phone, city, yearsExp,
+        jobId, jobTitle,
+        choice2Id, choice2Title,
+        choice3Id, choice3Title,
+        status, trackingCode, createdAt
        FROM applications
        WHERE trackingCode = ?`
     )
     .get(String(trackingCode || ""));
 }
 
-// ✅ NOUVEAU: pour PDF + détails admin
+// ✅ pour PDF + détails admin
 function getApplicationById(id) {
   return open()
     .prepare(`SELECT * FROM applications WHERE id = ?`)
@@ -231,7 +275,9 @@ function getApplicationById(id) {
 
 // ADMIN
 function findAdminByEmail(email) {
-  return open().prepare(`SELECT * FROM admins WHERE email = ?`).get(String(email || ""));
+  return open()
+    .prepare(`SELECT * FROM admins WHERE email = ?`)
+    .get(String(email || ""));
 }
 
 function listApplications({ q, limit = 200, offset = 0 }) {
@@ -255,12 +301,22 @@ function listApplications({ q, limit = 200, offset = 0 }) {
        ORDER BY id DESC
        LIMIT ? OFFSET ?`
     )
-    .all(`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`, Number(limit), Number(offset));
+    .all(
+      `%${query}%`,
+      `%${query}%`,
+      `%${query}%`,
+      `%${query}%`,
+      Number(limit),
+      Number(offset)
+    );
 }
 
 function updateApplicationStatus(id, status) {
   const d = open();
-  d.prepare(`UPDATE applications SET status = ? WHERE id = ?`).run(String(status), Number(id));
+  d.prepare(`UPDATE applications SET status = ? WHERE id = ?`).run(
+    String(status),
+    Number(id)
+  );
   return d.prepare(`SELECT * FROM applications WHERE id = ?`).get(Number(id));
 }
 
@@ -303,7 +359,7 @@ module.exports = {
   createApplication,
   getApplicationByTracking,
 
-  // ✅ new
+  // new
   getApplicationById,
 
   // admin

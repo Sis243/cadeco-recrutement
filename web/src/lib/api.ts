@@ -1,3 +1,4 @@
+// web/src/lib/api.ts
 export const API_BASE: string =
   (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
 
@@ -16,11 +17,32 @@ export async function fetchJobs() {
   return data?.data || [];
 }
 
-export async function submitApplication(form: FormData) {
+export type SubmitApplicationPayload = {
+  fullName: string;
+  phone: string;
+  email: string;
+  city: string;
+  experienceYears: string | number;
+  choice1: string;
+  choice2?: string | null;
+  choice3?: string | null;
+};
+
+/**
+ * ✅ submitApplication accepte:
+ * - objet JSON (actuel)
+ * - FormData (si tu réactives les fichiers plus tard)
+ */
+export async function submitApplication(payload: SubmitApplicationPayload | FormData) {
+  const isFormData =
+    typeof FormData !== "undefined" && payload instanceof FormData;
+
   const res = await fetch(`${API_BASE}/api/apply`, {
     method: "POST",
-    body: form,
+    headers: isFormData ? undefined : { "Content-Type": "application/json" },
+    body: isFormData ? payload : JSON.stringify(payload),
   });
+
   const data = await safeJson(res);
   if (!res.ok) throw new Error(data?.message || "Erreur serveur");
   return data;
@@ -53,6 +75,7 @@ export async function adminLogin(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
+
   const data = await safeJson(res);
   if (!res.ok) throw new Error(data?.message || "Identifiants invalides.");
   return data; // { token, admin }
@@ -61,9 +84,7 @@ export async function adminLogin(
 export async function adminListApplications(token: string, q = "") {
   const res = await fetch(
     `${API_BASE}/api/admin/applications?q=${encodeURIComponent(q)}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
+    { headers: { Authorization: `Bearer ${token}` } }
   );
   const data = await safeJson(res);
   if (!res.ok) throw new Error(data?.message || "Erreur liste");
@@ -83,7 +104,14 @@ export async function adminUpdateStatus(
     },
     body: JSON.stringify({ status }),
   });
+
   const data = await safeJson(res);
   if (!res.ok) throw new Error(data?.message || "Erreur update status");
   return data?.data;
+}
+
+export function adminDownloadDossierUrl(token: string, id: number | string) {
+  return `${API_BASE}/api/admin/applications/${id}/dossier.pdf?token=${encodeURIComponent(
+    token
+  )}`;
 }

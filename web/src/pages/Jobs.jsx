@@ -2,16 +2,16 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 const JOBS = [
-  { title: "Chargé(e) de relation avec les clients", dept: "Commercial", level: "Junior/Senior", city: "Kinshasa" },
-  { title: "Délégué(e) commercial", dept: "Commercial", level: "Junior/Senior", city: "Kinshasa" },
-  { title: "Analyste des crédits", dept: "Crédit", level: "Senior", city: "Kinshasa" },
-  { title: "Contrôleur permanent (interne)", dept: "Contrôle", level: "Senior", city: "Kinshasa" },
-  { title: "Agent de recouvrement", dept: "Recouvrement", level: "Junior/Senior", city: "Kinshasa" },
-  { title: "Chef caissier (Coordonnateur)", dept: "Caisse", level: "Senior", city: "Kinshasa" },
-  { title: "Caissier", dept: "Caisse", level: "Junior/Senior", city: "Kinshasa" },
-  { title: "Auditeur interne", dept: "Audit", level: "Senior", city: "Kinshasa" },
-  { title: "Informaticien expert en réseaux", dept: "IT", level: "Senior", city: "Kinshasa" },
-  { title: "Informaticien expert en conception", dept: "IT", level: "Senior", city: "Kinshasa" },
+  { id: "1", title: "Chargé(e) de relation avec les clients", dept: "Commercial", level: "Junior/Senior" },
+  { id: "2", title: "Délégué(e) commercial", dept: "Commercial", level: "Junior/Senior" },
+  { id: "3", title: "Analyste des crédits", dept: "Crédit", level: "Senior" },
+  { id: "4", title: "Contrôleur permanent (interne)", dept: "Contrôle", level: "Senior" },
+  { id: "5", title: "Agent de recouvrement", dept: "Recouvrement", level: "Junior/Senior" },
+  { id: "6", title: "Chef caissier (Coordonnateur)", dept: "Caisse", level: "Senior" },
+  { id: "7", title: "Caissier", dept: "Caisse", level: "Junior/Senior" },
+  { id: "8", title: "Auditeur interne", dept: "Audit", level: "Senior" },
+  { id: "9", title: "Informaticien expert en réseaux", dept: "IT", level: "Senior" },
+  { id: "10", title: "Informaticien expert en conception", dept: "IT", level: "Senior" },
 ];
 
 export default function Jobs() {
@@ -21,7 +21,7 @@ export default function Jobs() {
     const s = q.trim().toLowerCase();
     if (!s) return JOBS;
     return JOBS.filter((j) =>
-      `${j.title} ${j.dept} ${j.level} ${j.city}`.toLowerCase().includes(s)
+      `${j.title} ${j.dept} ${j.level}`.toLowerCase().includes(s)
     );
   }, [q]);
 
@@ -55,21 +55,20 @@ export default function Jobs() {
                   <th>Poste</th>
                   <th>Département</th>
                   <th>Niveau</th>
-                  <th>Ville</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((j) => (
-                  <tr key={j.title}>
+                  <tr key={j.id}>
                     <td><b>{j.title}</b></td>
                     <td>{j.dept}</td>
                     <td>{j.level}</td>
-                    <td>{j.city}</td>
                     <td>
                       <Link
                         className="btn btnPrimary"
-                        to={`/postuler?poste=${encodeURIComponent(j.title)}`}
+                        // ✅ On envoie jobId pour pré-remplir le 1er choix dans Apply.jsx
+                        to={`/postuler?jobId=${encodeURIComponent(j.id)}`}
                         style={{ padding: "8px 10px", borderRadius: 12 }}
                       >
                         Postuler
@@ -77,9 +76,10 @@ export default function Jobs() {
                     </td>
                   </tr>
                 ))}
+
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="small">
+                    <td colSpan={4} className="small">
                       Aucun poste ne correspond à votre recherche.
                     </td>
                   </tr>

@@ -1,14 +1,49 @@
+// web/src/pages/AdminDashboard.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE, adminListApplications, adminUpdateStatus } from "../lib/api";
+
+// ✅ Optionnel : si tu ajoutes le logo ici : web/src/assets/cadeco-logo.png
+// Si tu n'as pas le logo, commente la ligne suivante.
+import cadecoLogo from "../assets/cadeco-logo.png";
 
 function safeStr(v) {
   return (v ?? "").toString();
 }
 
+// ✅ util: affiche un libellé de poste fiable (Title sinon ID)
+function labelChoice(title, id) {
+  const t = safeStr(title).trim();
+  if (t) return t;
+  const i = safeStr(id).trim();
+  return i ? `Poste #${i}` : "—";
+}
+
+// ✅ util: concatène les choix (affichage dans tableau)
+function formatChoices(it) {
+  const c1 = labelChoice(it?.jobTitle, it?.jobId);
+  const c2 = labelChoice(it?.choice2Title, it?.choice2Id);
+  const c3 = labelChoice(it?.choice3Title, it?.choice3Id);
+
+  const arr = [c1, c2, c3].filter((x) => x && x !== "—");
+  return arr.length ? arr.join(" / ") : "—";
+}
+
 function toCSV(rows) {
   const escape = (s) => `"${safeStr(s).replaceAll('"', '""')}"`;
-  const headers = ["Suivi", "Nom", "Téléphone", "Email", "Ville", "Poste", "Statut", "Créé le"];
+
+  const headers = [
+    "Suivi",
+    "Nom",
+    "Téléphone",
+    "Email",
+    "Ville",
+    "1er choix",
+    "2e choix",
+    "3e choix",
+    "Statut",
+    "Créé le",
+  ];
 
   const lines = [
     headers.map(escape).join(","),
@@ -19,7 +54,9 @@ function toCSV(rows) {
         r.phone,
         r.email,
         r.city,
-        r.jobId || r.jobTitle,
+        labelChoice(r.jobTitle, r.jobId),
+        labelChoice(r.choice2Title, r.choice2Id),
+        labelChoice(r.choice3Title, r.choice3Id),
         r.status,
         r.createdAt ? new Date(r.createdAt).toLocaleString("fr-FR") : "",
       ]
@@ -66,7 +103,6 @@ function statusTone(status) {
 
 export default function AdminDashboard() {
   const nav = useNavigate();
-
   const token = useMemo(() => localStorage.getItem("cadeco_admin_token") || "", []);
 
   const [loading, setLoading] = useState(true);
@@ -78,7 +114,6 @@ export default function AdminDashboard() {
   const [poste, setPoste] = useState("Tous");
   const [selected, setSelected] = useState(null);
 
-  // ✅ editor status
   const [editStatus, setEditStatus] = useState("");
   const [savingStatus, setSavingStatus] = useState(false);
 
@@ -118,8 +153,12 @@ export default function AdminDashboard() {
   }, [selected]);
 
   const postesOptions = useMemo(() => {
+    // Filtre poste basé sur 1er choix (comme avant)
     const set = new Set();
-    for (const it of items) if (it?.jobId || it?.jobTitle) set.add(it.jobTitle || it.jobId);
+    for (const it of items) {
+      const p = it?.jobTitle || it?.jobId;
+      if (p) set.add(p);
+    }
     return ["Tous", ...Array.from(set).sort()];
   }, [items]);
 
@@ -154,6 +193,10 @@ export default function AdminDashboard() {
         it.city,
         it.jobId,
         it.jobTitle,
+        it.choice2Id,
+        it.choice2Title,
+        it.choice3Id,
+        it.choice3Title,
         it.status,
       ]
         .map((x) => safeStr(x).toLowerCase())
@@ -202,10 +245,7 @@ export default function AdminDashboard() {
       setSavingStatus(true);
       const updated = await adminUpdateStatus(token, selected.id, editStatus);
 
-      // update list + selected
-      setItems((prev) =>
-        prev.map((x) => (String(x.id) === String(updated.id) ? updated : x))
-      );
+      setItems((prev) => prev.map((x) => (String(x.id) === String(updated.id) ? updated : x)));
       setSelected(updated);
     } catch (e) {
       alert(e?.message || "Erreur mise à jour statut.");
@@ -278,14 +318,23 @@ export default function AdminDashboard() {
     <div className="section">
       <div className="container">
         <div className="card adminCard">
-          <div className="adminTop">
-            <div>
-              <div className="badge">Administration • Recrutement CADECO</div>
-              <h1 className="adminTitle">Tableau de bord</h1>
-              <div className="small adminSubtitle">
-                Gestion des candidatures (filtres, statuts, détails)
+          {/* ✅ Header pro + logo */}
+          <div className="adminHeaderPro">
+            <div className="adminBrand">
+              {/* Logo (si dispo) */}
+              <div className="brandLogoWrap" title="CADECO">
+                {/* Si tu n'as pas de logo, tu peux remplacer <img ...> par <div className="brandFallback">CADECO</div> */}
+                <img src={cadecoLogo} alt="CADECO" className="brandLogo" onError={(e) => (e.currentTarget.style.display = "none")} />
+                <div className="brandFallback">CADECO</div>
+              </div>
+
+              <div>
+                <div className="badge">Administration • Recrutement</div>
+                <h1 className="adminTitle">Tableau de bord</h1>
+                <div className="small adminSubtitle">Gestion des candidatures (filtres, statuts, détails)</div>
               </div>
             </div>
+
             {headerRight}
           </div>
 
@@ -316,7 +365,7 @@ export default function AdminDashboard() {
                 className="input"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Nom, téléphone, suivi, email, poste…"
+                placeholder="Nom, téléphone, suivi, email, poste (1/2/3)…"
               />
             </div>
 
@@ -333,7 +382,7 @@ export default function AdminDashboard() {
               </div>
 
               <div>
-                <div className="label">Poste</div>
+                <div className="label">Poste (1er choix)</div>
                 <select className="select" value={poste} onChange={(e) => setPoste(e.target.value)}>
                   {postesOptions.map((p) => (
                     <option key={p} value={p}>
@@ -370,7 +419,7 @@ export default function AdminDashboard() {
                       <tr>
                         <th>Suivi</th>
                         <th>Nom</th>
-                        <th>Poste</th>
+                        <th>Postes (1/2/3)</th>
                         <th>Statut</th>
                         <th style={{ width: 110 }}>Action</th>
                       </tr>
@@ -384,10 +433,14 @@ export default function AdminDashboard() {
                         >
                           <td className="mono">{it.trackingCode}</td>
                           <td>{it.fullName}</td>
-                          <td>{it.jobTitle || it.jobId}</td>
+
+                          {/* ✅ 3 choix */}
+                          <td className="choicesCell">{formatChoices(it)}</td>
+
                           <td>
                             <Pill tone={statusTone(it.status)}>{it.status}</Pill>
                           </td>
+
                           <td>
                             <button
                               className="btn btnGhost"
@@ -431,10 +484,22 @@ export default function AdminDashboard() {
                       <div className="label">Nom</div>
                       <div className="detailsValue">{selected.fullName}</div>
                     </div>
-                    <div>
-                      <div className="label">Poste</div>
-                      <div className="detailsValue">{selected.jobTitle || selected.jobId || "-"}</div>
+
+                    <div style={{ gridColumn: "1 / -1" }}>
+                      <div className="label">Postes souhaités</div>
+                      <div className="detailsValue" style={{ display: "grid", gap: 6 }}>
+                        <div>
+                          <b>1er :</b> {labelChoice(selected.jobTitle, selected.jobId)}
+                        </div>
+                        <div>
+                          <b>2e :</b> {labelChoice(selected.choice2Title, selected.choice2Id)}
+                        </div>
+                        <div>
+                          <b>3e :</b> {labelChoice(selected.choice3Title, selected.choice3Id)}
+                        </div>
+                      </div>
                     </div>
+
                     <div>
                       <div className="label">Téléphone</div>
                       <div className="detailsValue">{selected.phone || "-"}</div>
@@ -465,13 +530,11 @@ export default function AdminDashboard() {
                         onChange={(e) => setEditStatus(e.target.value)}
                         style={{ minWidth: 220 }}
                       >
-                        {["RECU", "ATTENTE", "EN_COURS", "QUALIFIE", "ENTRETIEN", "RETENU", "NON_RETENU"].map(
-                          (s) => (
-                            <option key={s} value={s}>
-                              {s}
-                            </option>
-                          )
-                        )}
+                        {["RECU", "ATTENTE", "EN_COURS", "QUALIFIE", "ENTRETIEN", "RETENU", "NON_RETENU"].map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
                       </select>
 
                       <button
@@ -485,8 +548,15 @@ export default function AdminDashboard() {
                     </div>
                   </div>
 
-                  {/* Liens fichiers */}
-                  <div className="detailsFiles">
+                  {/* PDF */}
+                  <div style={{ marginTop: 14 }}>
+                    <button className="btn btnSoft" type="button" onClick={downloadPdfSelected}>
+                      Télécharger PDF (fiche)
+                    </button>
+                  </div>
+
+                  {/* Fichiers (si tu les réactives plus tard) */}
+                  <div className="detailsFiles" style={{ marginTop: 12 }}>
                     <div className="label">Fichiers</div>
                     <div className="small">
                       CV :{" "}
@@ -508,15 +578,6 @@ export default function AdminDashboard() {
                         "—"
                       )}
                     </div>
-
-                    {/* ✅ PDF download */}
-                    {selected.id ? (
-                      <div style={{ marginTop: 10 }}>
-                        <button className="btn btnSoft" type="button" onClick={downloadPdfSelected}>
-                          Télécharger PDF (fiche)
-                        </button>
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               )}
@@ -525,7 +586,33 @@ export default function AdminDashboard() {
 
           <style>{`
             .adminCard{ padding:18px; }
-            .adminTop{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; }
+
+            .adminHeaderPro{
+              display:flex; justify-content:space-between; align-items:flex-start;
+              gap:14px; flex-wrap:wrap;
+              padding:14px;
+              border-radius:18px;
+              background: rgba(255,255,255,.03);
+              border:1px solid rgba(255,255,255,.08);
+            }
+
+            .adminBrand{ display:flex; gap:12px; align-items:center; }
+            .brandLogoWrap{
+              width:54px; height:54px; border-radius:14px;
+              display:grid; place-items:center;
+              overflow:hidden;
+              border:1px solid rgba(255,255,255,.10);
+              background: rgba(255,255,255,.04);
+              position:relative;
+            }
+            .brandLogo{ width:100%; height:100%; object-fit:cover; display:block; }
+            .brandFallback{
+              position:absolute; inset:0;
+              display:grid; place-items:center;
+              font-weight:800; letter-spacing:-.02em; font-size:12px;
+              opacity:.9;
+            }
+
             .adminTitle{ margin:10px 0 6px; letter-spacing:-0.02em; }
             .adminSubtitle{ opacity:.9; }
             .adminActions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
@@ -544,6 +631,8 @@ export default function AdminDashboard() {
             .tableWrap{ overflow:auto; border-radius:12px; }
             .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
+            .choicesCell{ max-width: 440px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
             .pill{ display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); }
             .pillOk{ border-color: rgba(46, 204, 113, .35); background: rgba(46, 204, 113, .12); }
             .pillWarn{ border-color: rgba(241, 196, 15, .35); background: rgba(241, 196, 15, .12); }
@@ -553,13 +642,14 @@ export default function AdminDashboard() {
             .detailsTitle{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-radius:12px; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); }
             .detailsGrid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:12px; }
             .detailsValue{ font-size:14px; margin-top:4px; }
-            .detailsFiles{ margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
+            .detailsFiles{ padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
 
             @media (max-width: 980px){
               .adminKpis{ grid-template-columns: 1fr; }
               .adminFilterRow{ grid-template-columns: 1fr; }
               .adminGrid{ grid-template-columns: 1fr; }
               .detailsGrid{ grid-template-columns: 1fr; }
+              .choicesCell{ max-width: 100%; white-space: normal; }
             }
           `}</style>
         </div>
