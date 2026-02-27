@@ -27,6 +27,10 @@ export default function Apply() {
 
   const [experienceYears, setExperienceYears] = useState("0");
 
+  // ✅ CV obligatoire (PDF)
+  const [cvFile, setCvFile] = useState(null);
+  const [cvInputKey, setCvInputKey] = useState(1); // reset input file
+
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
   const [ok, setOk] = useState(false);
@@ -48,7 +52,49 @@ export default function Apply() {
     if (!email.trim()) return "L’e-mail est obligatoire.";
     if (!city.trim()) return "La ville est obligatoire.";
     if (!choice1) return "Veuillez choisir au moins le 1er poste.";
+
+    // ✅ CV obligatoire + PDF + taille
+    if (!cvFile) return "Veuillez joindre votre CV (PDF).";
+
+    const name = String(cvFile.name || "").toLowerCase();
+    const type = String(cvFile.type || "").toLowerCase();
+    const isPdf = name.endsWith(".pdf") || type === "application/pdf";
+    if (!isPdf) return "CV invalide : seul le format PDF est autorisé.";
+
+    const max = 10 * 1024 * 1024; // 10MB
+    if (cvFile.size > max) return "CV trop volumineux : maximum 10 MB.";
+
     return "";
+  }
+
+  function onPickCv(e) {
+    const f = e.target.files?.[0] || null;
+    if (!f) {
+      setCvFile(null);
+      return;
+    }
+
+    // contrôle immédiat
+    const name = String(f.name || "").toLowerCase();
+    const type = String(f.type || "").toLowerCase();
+    const isPdf = name.endsWith(".pdf") || type === "application/pdf";
+    const max = 10 * 1024 * 1024;
+
+    if (!isPdf) {
+      setServerError("CV invalide : seul le format PDF est autorisé.");
+      setCvFile(null);
+      setCvInputKey((k) => k + 1); // reset input
+      return;
+    }
+    if (f.size > max) {
+      setServerError("CV trop volumineux : maximum 10 MB.");
+      setCvFile(null);
+      setCvInputKey((k) => k + 1);
+      return;
+    }
+
+    setServerError("");
+    setCvFile(f);
   }
 
   async function onSubmit(e) {
@@ -66,21 +112,36 @@ export default function Apply() {
     try {
       setSubmitting(true);
 
-      const payload = {
-        fullName: fullName.trim(),
-        phone: phone.trim(),
-        email: email.trim(),
-        city: city.trim(), // ✅ ville envoyée
-        choice1,
-        choice2: choice2 || null,
-        choice3: choice3 || null,
-        experienceYears,
-      };
+      // ✅ FormData (multipart)
+      const fd = new FormData();
+      fd.append("fullName", fullName.trim());
+      fd.append("phone", phone.trim());
+      fd.append("email", email.trim());
+      fd.append("city", city.trim());
+      fd.append("choice1", String(choice1));
+      if (choice2) fd.append("choice2", String(choice2));
+      if (choice3) fd.append("choice3", String(choice3));
+      fd.append("experienceYears", String(experienceYears || "0"));
 
-      const data = await submitApplication(payload);
+      // ✅ champ file attendu par l’API: "cv"
+      fd.append("cv", cvFile);
+
+      const data = await submitApplication(fd);
 
       setOk(true);
       setTrackingCode(data?.trackingCode || "");
+
+      // reset formulaire (optionnel)
+      setFullName("");
+      setPhone("");
+      setEmail("");
+      setCity("");
+      setChoice1(preselectedJobId || "");
+      setChoice2("");
+      setChoice3("");
+      setExperienceYears("0");
+      setCvFile(null);
+      setCvInputKey((k) => k + 1);
     } catch (err) {
       setServerError(err?.message || "Erreur serveur");
     } finally {
@@ -159,6 +220,7 @@ export default function Apply() {
                 setChoice1={setChoice1}
                 setChoice2={setChoice2}
                 setChoice3={setChoice3}
+                disabled={submitting}
               />
 
               <div className="hint" style={{ marginTop: 8 }}>
@@ -181,6 +243,34 @@ export default function Apply() {
                 ))}
               </select>
             </div>
+
+            {/* ✅ CV (PDF) obligatoire */}
+            <div className="field" style={{ gridColumn: "1 / -1" }}>
+              <label>
+                CV (PDF) <span>*</span>
+              </label>
+
+              <input
+                key={cvInputKey}
+                className="input"
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={onPickCv}
+                disabled={submitting}
+              />
+
+              <div className="hint" style={{ marginTop: 6 }}>
+                Format accepté : <b>PDF</b> — Taille max : <b>10 MB</b>.
+                {cvFile ? (
+                  <>
+                    {" "}
+                    <span style={{ opacity: 0.9 }}>
+                      Fichier sélectionné : <b>{cvFile.name}</b>
+                    </span>
+                  </>
+                ) : null}
+              </div>
+            </div>
           </div>
 
           {serverError ? <div className="alert alertError">{serverError}</div> : null}
@@ -195,9 +285,7 @@ export default function Apply() {
                 <button
                   type="button"
                   className="btn btnGhost"
-                  onClick={() =>
-                    navigate(`/suivi?code=${encodeURIComponent(trackingCode)}`)
-                  }
+                  onClick={() => navigate(`/suivi?code=${encodeURIComponent(trackingCode)}`)}
                   disabled={!trackingCode}
                 >
                   Aller au suivi
@@ -210,11 +298,7 @@ export default function Apply() {
             <button className="btn btnPrimary" type="submit" disabled={submitting}>
               {submitting ? "Soumission..." : "Soumettre"}
             </button>
-            <button
-              className="btn btnGhost"
-              type="button"
-              onClick={() => navigate("/suivi")}
-            >
+            <button className="btn btnGhost" type="button" onClick={() => navigate("/suivi")}>
               Aller au suivi
             </button>
           </div>

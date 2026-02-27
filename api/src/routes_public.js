@@ -1,8 +1,42 @@
+// api/src/routes_public.js
 const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
 const db = require("./db");
 const { sendMail, tplConfirmation } = require("./mailer");
 
 const router = express.Router();
+
+const UPLOAD_DIR = process.env.UPLOAD_DIR || "uploads";
+const uploadPath = path.join(__dirname, "..", UPLOAD_DIR);
+if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+
+// ✅ Upload CV uniquement (PDF)
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadPath),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname || "").toLowerCase();
+    const safe = `cv-${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, safe + ext);
+  },
+});
+
+function fileFilter(req, file, cb) {
+  const ext = path.extname(file.originalname || "").toLowerCase();
+  const mime = String(file.mimetype || "").toLowerCase();
+
+  const isPdf = ext === ".pdf" || mime === "application/pdf";
+  if (!isPdf) return cb(new Error("CV invalide. Seul le PDF est autorisé."), false);
+
+  cb(null, true);
+}
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+});
 
 // =============================
 // GET /api/jobs
@@ -18,11 +52,11 @@ router.get("/jobs", (req, res) => {
 });
 
 // =============================
-// POST /api/apply
-// body JSON:
-// fullName, email, phone, city, experienceYears, choice1, choice2?, choice3?
+// POST /api/apply (multipart/form-data)
+// fields: fullName, email, phone, city, experienceYears, choice1, choice2?, choice3?
+// file: cv (pdf)
 // =============================
-router.post("/apply", async (req, res) => {
+router.post("/apply", upload.single("cv"), async (req, res) => {
   try {
     const {
       fullName,
@@ -45,7 +79,11 @@ router.post("/apply", async (req, res) => {
       return res.status(400).json({ message: "Le 1er poste (choice1) est requis." });
     }
 
-    // éviter doublons
+    // ✅ CV obligatoire (si tu veux le rendre optionnel, dis-moi)
+    if (!req.file) {
+      return res.status(400).json({ message: "Veuillez joindre votre CV en PDF (champ cv)." });
+    }
+
     const c1 = String(choice1);
     const c2 = choice2 ? String(choice2) : "";
     const c3 = choice3 ? String(choice3) : "";
@@ -62,6 +100,9 @@ router.post("/apply", async (req, res) => {
     const job2 = c2 ? jobs.find((j) => String(j.id) === c2) : null;
     const job3 = c3 ? jobs.find((j) => String(j.id) === c3) : null;
 
+    // ✅ chemin public du CV
+    const cvRelPath = `${UPLOAD_DIR}/${req.file.filename}`;
+
     const created = db.createApplication({
       fullName: String(fullName).trim(),
       email: String(email).trim(),
@@ -69,18 +110,16 @@ router.post("/apply", async (req, res) => {
       city: String(city).trim(),
       yearsExp: experienceYears != null ? Number(experienceYears) : 0,
 
-      // 1er choix (compat)
       jobId: Number(c1),
       jobTitle: job1?.title || null,
 
-      // ✅ 2e / 3e choix (nouveau)
       choice2Id: c2 ? Number(c2) : null,
       choice2Title: job2?.title || null,
       choice3Id: c3 ? Number(c3) : null,
       choice3Title: job3?.title || null,
 
-      // pas de fichiers
-      cvPath: null,
+      // ✅ CV uniquement
+      cvPath: cvRelPath,
       idPath: null,
     });
 
@@ -105,13 +144,17 @@ router.post("/apply", async (req, res) => {
     });
   } catch (e) {
     console.error("APPLY ERROR:", e);
+
+    // ✅ message clair si CV non PDF
+    const msg = String(e?.message || "");
+    if (msg.includes("Seul le PDF")) {
+      return res.status(400).json({ message: msg });
+    }
+
     res.status(500).json({ message: "Erreur serveur." });
   }
 });
 
-// =============================
-// GET /api/track?code=...
-// =============================
 router.get("/track", (req, res) => {
   try {
     const code = String(req.query.code || "").trim();

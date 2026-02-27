@@ -23,7 +23,7 @@ export default function Home() {
             </div>
 
             <div className="small" style={{ marginTop: 12 }}>
-              Conseil : préparez votre CV (PDF) et votre pièce d’identité (PDF/JPG/PNG).
+              Conseil : préparez votre CV (PDF).
             </div>
           </div>
 
@@ -64,7 +64,7 @@ export default function Home() {
             </div>
             <div className="card feature">
               <h3>2) Déposer votre dossier</h3>
-              <p>Remplissez le formulaire et joignez vos documents (CV, identité, etc.).</p>
+              <p>Remplissez le formulaire et joignez vos documents (CV).</p>
             </div>
             <div className="card feature">
               <h3>3) Suivre le statut</h3>
