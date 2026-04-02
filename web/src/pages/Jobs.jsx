@@ -29,7 +29,7 @@ const JOB_META_BY_ID = {
   8: { dept: "Audit", level: "Senior" },             // Auditeurs internes
   9: { dept: "IT", level: "Senior" },                // Réseaux
   10:{ dept: "IT", level: "Senior" },                // Conception systèmes
-  11:{ dept: "Comptable", level: "Senior" }          // Comptabilité
+  11:{ dept: "Comptabilité", level: "Senior" }          // Comptabilité
 };
 
 const JOB_META_BY_TITLE = {
@@ -67,7 +67,7 @@ const JOB_META_BY_TITLE = {
   [normalize("Informaticien expert en conception")]: { dept: "IT", level: "Senior" },
   [normalize("Informaticien exper base des données")]: { dept: "IT", level: "Senior" },
 
-  [normalize("Comptable")]: { dept: "Finance/Comptabilité", level: "Senior" }, // si tu l’ajoutes dans les jobs
+  [normalize("Comptable")]: { dept: "Comptabilité", level: "Senior" }, 
 };
 
 function getJobMeta(job) {
