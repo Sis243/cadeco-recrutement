@@ -1,13 +1,282 @@
 {
-  "Chargés de relation avec les clients": "Définition du poste Le/la chargé(e) de clientèle est le principal interlocuteur du client assurant le suivi, la fidélisation et la satisfaction d'un portefeuille de clients. Il gère les demandes, résout les réclamations, et assure une interface entre le client et les services internes (commerciaux, techniques) pour garantir une expérience positive et l’atteinte de ses objectives.\n**Tâches principales**\nDéveloppement et suivi d’un portefeuille de clients avec les objectifs en termes de volume d’activité et de revenus ; Analyse approfondie des besoins du client ; Elaboration de présentations, d’offres de services innovantes et de conseils en gestion ; Point focal du client sur les différents produits et services de la CADECO SA ; Relation client : Accueil, conseil et traitement des demandes (téléphone, mail, courrier) ; Actions commerciales : Prospection, vente de produits/services, et détection de besoins ; Gestion des litiges : Résolution des réclamations et suivi de satisfaction.\n**Compétences requises**\nBonne communication, sens du service, capacité d’analyse, négociation, organisation, maîtrise des outils bureautiques.\n**Profil**\nFormation : Bac+3/4 en gestion, commerce, banque/finance ou équivalent ; Expérience : 1 à 3 ans souhaitée.",
-  "Délégués commerciaux": "Définition du poste Le/la délégué(e) commercial(e) est chargé(e) de la prospection, de la promotion et de la vente des produits et services de la CADECO SA. Il/elle développe le portefeuille clients, assure le suivi des contrats et participe à l’atteinte des objectifs de vente.\n**Missions principales**\nProspection terrain et digitale ; Présentation des offres ; Négociation et conclusion ; Suivi des clients ; Reporting commercial ; Veille concurrentielle.\n**Compétences**\nTechniques de vente, négociation, aisance relationnelle, autonomie, rigueur, orientation résultats.\n**Profil**\nBac+2/3 en commerce/marketing/gestion ; expérience commerciale souhaitée.",
-  "Analystes crédits": "Définition du poste L’analyste crédit évalue la solvabilité des clients et la viabilité des demandes de crédit. Il analyse les dossiers, propose des décisions, et assure le suivi du portefeuille crédits selon les politiques internes et la réglementation.\n**Tâches principales**\nAnalyse financière (bilan, cashflow) ; scoring ; montage de dossier ; recommandations ; suivi des encours ; gestion des risques ; reporting.\n**Compétences**\nAnalyse financière, esprit critique, maîtrise Excel, connaissance des produits bancaires, rigueur.\n**Profil**\nBac+3/5 en finance/banque/économie ; expérience souhaitée en crédit.",
-  "Contrôleurs permanents (internes)": "Définition du poste Le contrôleur permanent (interne) veille au respect des procédures, à la conformité, et à la maîtrise des risques. Il met en place des contrôles réguliers, détecte les anomalies et propose des plans d’action.\n**Missions**\nContrôles de 1er/2e niveau ; conformité ; suivi des incidents ; recommandations ; sensibilisation ; reporting.\n**Compétences**\nAudit/contrôle interne, gestion des risques, esprit d’analyse, rédaction, confidentialité.\n**Profil**\nBac+3/5 en audit, finance, contrôle, ou équivalent ; expérience souhaitée.",
-  "Agents de recouvrement": "Définition du poste L’agent de recouvrement assure la récupération des créances dues à la CADECO SA en mettant en œuvre des actions amiables et/ou contentieuses, tout en préservant la relation client.\n**Missions**\nRelances ; négociation d’échéanciers ; suivi des paiements ; préparation des dossiers ; reporting ; respect des procédures.\n**Compétences**\nNégociation, persuasion, gestion du stress, rigueur, connaissance juridique de base.\n**Profil**\nBac+2/3 en gestion/finance/droit ; expérience appréciée en recouvrement.",
-  "Chef caissiers (Coordonnateur)": "Définition du poste Le chef caissier coordonne l’activité de caisse, supervise les caissiers, assure la conformité des opérations, la tenue de caisse, et la sécurité des fonds.\n**Missions**\nSupervision des opérations ; contrôle de caisse ; clôtures ; gestion des écarts ; organisation du planning ; application des procédures ; reporting.\n**Compétences**\nRigueur, leadership, sens de l’organisation, maîtrise des opérations de caisse, intégrité.\n**Profil**\nBac+2/3 en finance/comptabilité/gestion ; expérience significative en caisse.",
-  "Caissiers": "Définition du poste Le caissier réalise les opérations de caisse (dépôts, retraits, paiements), accueille les clients et garantit la fiabilité des transactions selon les procédures.\n**Missions**\nTraitement des opérations ; vérification des pièces ; tenue de caisse ; clôture ; service client ; respect sécurité.\n**Compétences**\nRigueur, rapidité, honnêteté, sens du service, maîtrise outils.\n**Profil**\nBac+2 en gestion/finance/comptabilité ; expérience appréciée.",
-  "Auditeurs internes": "Définition du poste L’auditeur interne évalue l’efficacité du contrôle interne, la conformité et la gestion des risques. Il mène des missions d’audit, émet des recommandations et suit leur mise en œuvre.\n**Missions**\nPlan d’audit ; tests ; entretiens ; rapports ; recommandations ; suivi des plans d’action.\n**Compétences**\nAudit, analyse, rédaction, autonomie, confidentialité.\n**Profil**\nBac+3/5 audit/finance/gestion ; expérience souhaitée.",
-  "Informaticiens experts en réseaux": "Définition du poste L’informaticien réseau assure la disponibilité, la sécurité et la performance des infrastructures réseau (LAN/WAN/Wi-Fi), ainsi que la supervision et le support.\n**Missions**\nInstallation/maintenance ; configuration équipements ; sécurité réseau ; supervision ; gestion incidents ; documentation.\n**Compétences**\nRéseaux TCP/IP, routage, switching, firewall, VPN, supervision, sécurité.\n**Profil**\nBac+3/5 informatique ; certifications (Cisco/Mikrotik) appréciées.",
-  "Informaticiens experts en conception des systèmes": "Définition du poste L’informaticien expert en conception des systèmes (orienté bases de données) assure la conception, l’administration et l’optimisation des bases, la disponibilité et la sécurité des données.\n**Missions**\nModélisation ; administration BD ; optimisation ; sauvegardes ; sécurité ; monitoring ; support.\n**Compétences**\nSQL, PostgreSQL/MySQL, sauvegarde/restauration, performance, sécurité, scripts.\n**Profil**\nBac+3/5 informatique ; expérience appréciée en SGBD.",
-  "Ressources Humaines": "Description à compléter."
+  "Chargés de relation avec les clients": {
+    "titre": "Chargés de relation avec les clients",
+    "description": "Le/la chargé(e) de clientèle est le principal interlocuteur du client. Il/elle assure le suivi, la fidélisation et la satisfaction d’un portefeuille de clients. Il/elle gère les demandes, résout les réclamations et assure l’interface entre le client et les services internes afin de garantir une expérience positive.",
+    "missions": [
+      "Développement et suivi d’un portefeuille de clients",
+      "Analyse approfondie des besoins du client",
+      "Élaboration de présentations, d’offres de services innovantes et de conseils en gestion",
+      "Point focal du client sur les différents produits et services de la CADECO SA",
+      "Accueil, conseil et traitement des demandes",
+      "Prospection, vente de produits et services, et détection de besoins",
+      "Résolution des réclamations et suivi de satisfaction"
+    ],
+    "competences": [
+      "Bonne communication",
+      "Sens du service",
+      "Capacité d’analyse",
+      "Négociation",
+      "Organisation",
+      "Maîtrise des outils bureautiques"
+    ],
+    "profil": [
+      "Bac+3/4 en gestion, commerce, banque/finance ou équivalent",
+      "Expérience de 1 à 3 ans souhaitée"
+    ]
+  },
+  "Délégués commerciaux": {
+    "titre": "Délégués commerciaux",
+    "description": "Le/la délégué(e) commercial(e) est chargé(e) de la prospection, de la promotion et de la vente des produits et services de la CADECO SA. Il/elle développe le portefeuille clients, assure le suivi des contrats et participe à l’atteinte des objectifs de vente.",
+    "missions": [
+      "Prospection terrain et digitale",
+      "Présentation des offres",
+      "Négociation et conclusion",
+      "Suivi des clients",
+      "Reporting commercial",
+      "Veille concurrentielle"
+    ],
+    "competences": [
+      "Techniques de vente",
+      "Négociation",
+      "Aisance relationnelle",
+      "Autonomie",
+      "Rigueur",
+      "Orientation résultats"
+    ],
+    "profil": [
+      "Bac+2/3 en commerce, marketing ou gestion",
+      "Expérience commerciale souhaitée"
+    ]
+  },
+  "Analystes crédits": {
+    "titre": "Analystes crédits",
+    "description": "L’analyste crédit évalue la solvabilité des clients et la viabilité des demandes de crédit. Il/elle analyse les dossiers, propose des décisions et assure le suivi du portefeuille crédits selon les politiques internes et la réglementation.",
+    "missions": [
+      "Analyse financière",
+      "Scoring",
+      "Montage de dossier",
+      "Recommandations de décision",
+      "Suivi des encours",
+      "Gestion des risques",
+      "Reporting"
+    ],
+    "competences": [
+      "Analyse financière",
+      "Esprit critique",
+      "Maîtrise d’Excel",
+      "Connaissance des produits bancaires",
+      "Rigueur"
+    ],
+    "profil": [
+      "Bac+3/5 en finance, banque ou économie",
+      "Expérience souhaitée en crédit"
+    ]
+  },
+  "Contrôleurs permanents (internes)": {
+    "titre": "Contrôleurs permanents (internes)",
+    "description": "Le contrôleur permanent veille au respect des procédures, à la conformité et à la maîtrise des risques. Il/elle met en place des contrôles réguliers, détecte les anomalies et propose des plans d’action.",
+    "missions": [
+      "Contrôles de 1er et 2e niveau",
+      "Suivi de la conformité",
+      "Suivi des incidents",
+      "Recommandations",
+      "Sensibilisation",
+      "Reporting"
+    ],
+    "competences": [
+      "Audit et contrôle interne",
+      "Gestion des risques",
+      "Esprit d’analyse",
+      "Rédaction",
+      "Confidentialité"
+    ],
+    "profil": [
+      "Bac+3/5 en audit, finance ou contrôle",
+      "Expérience souhaitée"
+    ]
+  },
+  "Agents de recouvrement": {
+    "titre": "Agents de recouvrement",
+    "description": "L’agent de recouvrement assure la récupération des créances dues à la CADECO SA en mettant en œuvre des actions amiables et ou contentieuses, tout en préservant la relation client.",
+    "missions": [
+      "Relances",
+      "Négociation d’échéanciers",
+      "Suivi des paiements",
+      "Préparation des dossiers",
+      "Reporting",
+      "Respect des procédures"
+    ],
+    "competences": [
+      "Négociation",
+      "Persuasion",
+      "Gestion du stress",
+      "Rigueur",
+      "Connaissance juridique de base"
+    ],
+    "profil": [
+      "Bac+2/3 en gestion, finance ou droit",
+      "Expérience appréciée en recouvrement"
+    ]
+  },
+  "Chef caissiers (Coordonnateur)": {
+    "titre": "Chef caissiers (Coordonnateur)",
+    "description": "Le chef caissier coordonne l’activité de caisse, supervise les caissiers, assure la conformité des opérations, la tenue de caisse et la sécurité des fonds.",
+    "missions": [
+      "Supervision des opérations",
+      "Contrôle de caisse",
+      "Clôtures",
+      "Gestion des écarts",
+      "Organisation du planning",
+      "Application des procédures",
+      "Reporting"
+    ],
+    "competences": [
+      "Rigueur",
+      "Leadership",
+      "Sens de l’organisation",
+      "Maîtrise des opérations de caisse",
+      "Intégrité"
+    ],
+    "profil": [
+      "Bac+2/3 en finance, comptabilité ou gestion",
+      "Expérience significative en caisse"
+    ]
+  },
+  "Caissiers": {
+    "titre": "Caissiers",
+    "description": "Le caissier réalise les opérations de caisse, accueille les clients et garantit la fiabilité des transactions selon les procédures.",
+    "missions": [
+      "Traitement des opérations",
+      "Vérification des pièces",
+      "Tenue de caisse",
+      "Clôture",
+      "Service client",
+      "Respect des règles de sécurité"
+    ],
+    "competences": [
+      "Rigueur",
+      "Rapidité",
+      "Honnêteté",
+      "Sens du service",
+      "Maîtrise des outils"
+    ],
+    "profil": [
+      "Bac+2 en gestion, finance ou comptabilité",
+      "Expérience appréciée"
+    ]
+  },
+  "Auditeurs internes": {
+    "titre": "Auditeurs internes",
+    "description": "L’auditeur interne évalue l’efficacité du contrôle interne, la conformité et la gestion des risques. Il/elle mène des missions d’audit, émet des recommandations et suit leur mise en œuvre.",
+    "missions": [
+      "Élaboration du plan d’audit",
+      "Réalisation des tests",
+      "Entretiens",
+      "Rapports",
+      "Recommandations",
+      "Suivi des plans d’action"
+    ],
+    "competences": [
+      "Audit",
+      "Analyse",
+      "Rédaction",
+      "Autonomie",
+      "Confidentialité"
+    ],
+    "profil": [
+      "Bac+3/5 en audit, finance ou gestion",
+      "Expérience souhaitée"
+    ]
+  },
+  "Informaticiens experts en réseaux": {
+    "titre": "Informaticiens experts en réseaux",
+    "description": "L’informaticien réseau assure la disponibilité, la sécurité et la performance des infrastructures réseau, ainsi que la supervision et le support.",
+    "missions": [
+      "Installation et maintenance",
+      "Configuration des équipements",
+      "Sécurité réseau",
+      "Supervision",
+      "Gestion des incidents",
+      "Documentation"
+    ],
+    "competences": [
+      "TCP/IP",
+      "Routage",
+      "Switching",
+      "Firewall",
+      "VPN",
+      "Supervision",
+      "Sécurité"
+    ],
+    "profil": [
+      "Bac+3/5 en informatique",
+      "Certifications Cisco ou Mikrotik appréciées"
+    ]
+  },
+  "Informaticiens experts en conception des systèmes": {
+    "titre": "Informaticiens experts en conception des systèmes",
+    "description": "L’informaticien expert en conception des systèmes orienté bases de données assure la conception, l’administration et l’optimisation des bases, ainsi que la disponibilité et la sécurité des données.",
+    "missions": [
+      "Modélisation",
+      "Administration des bases de données",
+      "Optimisation",
+      "Sauvegardes",
+      "Sécurité",
+      "Monitoring",
+      "Support"
+    ],
+    "competences": [
+      "SQL",
+      "PostgreSQL",
+      "MySQL",
+      "Sauvegarde et restauration",
+      "Performance",
+      "Sécurité",
+      "Scripts"
+    ],
+    "profil": [
+      "Bac+3/5 en informatique",
+      "Expérience appréciée en SGBD"
+    ]
+  },
+  "Comptabilité": {
+    "titre": "Comptabilité",
+    "description": "Le comptable assure la tenue rigoureuse de la comptabilité de la CADECO SA, garantit la fiabilité des données financières et veille au respect des obligations légales ainsi que des normes en vigueur.",
+    "missions": [
+      "Saisir et classer les informations financières, comptables et administratives",
+      "Élaborer les états financiers et les reportings",
+      "Tenir à jour la comptabilité générale et analytique",
+      "Contrôler le respect du plan des comptes et sa mise à jour",
+      "Consolider les données financières",
+      "Appliquer les normes comptables nationales et internationales, notamment IFRS",
+      "Réaliser les liasses et les déclarations fiscales mensuelles et annuelles",
+      "Analyser les comptes généraux de provisions, d’immobilisation et de haut de bilan",
+      "Préparer les documents de synthèse pour les audits",
+      "Transmettre aux commissaires aux comptes les données nécessaires",
+      "Effectuer la saisie des écritures comptables",
+      "Établir les déclarations fiscales et sociales",
+      "Participer aux travaux d’inventaire et à l’élaboration des états financiers annuels",
+      "Réaliser les rapprochements bancaires et le suivi des paiements fournisseurs"
+    ],
+    "competences": [
+      "Maîtrise du SYSCOHADA révisé",
+      "Maîtrise des normes CPCC et OHADA",
+      "Connaissance des logiciels comptables comme Banana Accounting, Sage ou Odoo",
+      "Rigueur",
+      "Organisation",
+      "Respect strict des délais",
+      "Capacité d’analyse et de synthèse",
+      "Intégrité",
+      "Discrétion professionnelle",
+      "Comptabilité analytique",
+      "Gestion fiscale",
+      "Consolidation des états financiers"
+    ],
+    "profil": [
+      "Diplôme en comptabilité, gestion ou finances",
+      "Bac+5 ou Master en comptabilité apprécié",
+      "Expérience d’au moins cinq ans dans un poste similaire de préférence dans un établissement financier",
+      "Certificat de spécialisation CPCC constitue un atout majeur"
+    ]
+  }
 }
