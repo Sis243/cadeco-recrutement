@@ -67,6 +67,7 @@ const JOB_META_BY_TITLE = {
   [normalize("Informaticien expert en conception")]: { dept: "IT", level: "Senior" },
   [normalize("Informaticien exper base des données")]: { dept: "IT", level: "Senior" },
 
+  [normalize("Comptabilité")]: { dept: "Comptabilité", level: "Senior" },
   [normalize("Comptable")]: { dept: "Comptabilité", level: "Senior" }, 
 };
 
@@ -131,16 +132,30 @@ function splitSections(raw) {
 }
 
 function SectionBlock({ title, lines }) {
+  const isTaskSection = /^(missions|t[aâ]ches|responsabilit[eé]s)/i.test(normalize(title));
+  const className = isTaskSection ? "jdSection jdSectionTasks" : "jdSection";
+
   return (
-    <div className="jdSection">
+    <div className={className}>
       <div className="jdSectionTitle">{title}</div>
-      <div className="jdSectionBody">
-        {lines.map((l, idx) => (
-          <div key={idx} className="jdLine">
-            {l}
-          </div>
-        ))}
-      </div>
+      {isTaskSection ? (
+        <ol className="jdTaskList">
+          {lines.map((l, idx) => (
+            <li key={idx} className="jdTaskItem">
+              <span className="jdTaskNumber">{String(idx + 1).padStart(2, "0")}</span>
+              <span className="jdTaskText">{l.replace(/[.;]\s*$/, "")}</span>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div className="jdSectionBody">
+          {lines.map((l, idx) => (
+            <div key={idx} className="jdLine">
+              {l}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -466,13 +481,20 @@ export default function Jobs() {
             .jdSection{
               border:1px solid rgba(255,255,255,.08);
               background: rgba(255,255,255,.02);
-              border-radius:14px;
-              padding:10px;
+              border-radius:8px;
+              padding:12px;
+            }
+            .jdSectionTasks{
+              border-color: rgba(239,184,16,.26);
+              background: linear-gradient(180deg, rgba(239,184,16,.10), rgba(255,255,255,.025));
+              box-shadow: inset 3px 0 0 rgba(239,184,16,.75);
             }
             .jdSectionTitle{
               font-size:13px;
               font-weight:800;
               opacity:.95;
+              text-transform: uppercase;
+              letter-spacing: .04em;
             }
             .jdSectionBody{
               margin-top:8px;
@@ -485,6 +507,43 @@ export default function Jobs() {
               opacity:.95;
               white-space: pre-wrap;
               word-break: break-word;
+            }
+            .jdTaskList{
+              list-style:none;
+              margin:10px 0 0;
+              padding:0;
+              display:grid;
+              gap:8px;
+            }
+            .jdTaskItem{
+              display:grid;
+              grid-template-columns: 38px minmax(0, 1fr);
+              gap:10px;
+              align-items:start;
+              padding:10px;
+              border-radius:8px;
+              border:1px solid rgba(255,255,255,.10);
+              background: rgba(0,0,0,.16);
+            }
+            .jdTaskNumber{
+              display:inline-flex;
+              align-items:center;
+              justify-content:center;
+              min-width:32px;
+              height:28px;
+              border-radius:8px;
+              background:#efb810;
+              color:#151515;
+              font-size:12px;
+              font-weight:900;
+            }
+            .jdTaskText{
+              min-width:0;
+              font-size:14px;
+              line-height:1.55;
+              font-weight:650;
+              color:rgba(255,255,255,.96);
+              overflow-wrap:anywhere;
             }
             .jdFooter{
               padding:10px 12px;

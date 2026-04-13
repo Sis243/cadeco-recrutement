@@ -132,8 +132,40 @@ Assurer la sauvegarde/restauration et la haute disponibilité ;
 Contrôler les accès, la sécurité et l’intégrité des données ;
 Optimiser les performances (index, requêtes, plan d’exécution) ;
 Produire la documentation et participer à l’évolution du SI.`,
-  "Ressources Humaines": ``,
+  "Comptabilité": `PROFIL DU COMPTABLE
+Définition du poste
+Le comptable assure la tenue rigoureuse de la comptabilité de la CADECO SA, garantit la fiabilité des données financières et veille au respect des obligations légales ainsi que des normes en vigueur.
+Tâches principales :
+Saisir et classer les informations financières, comptables et administratives ;
+Élaborer les états financiers et les reportings ;
+Tenir à jour la comptabilité générale et analytique ;
+Contrôler le respect du plan des comptes et sa mise à jour ;
+Consolider les données financières ;
+Appliquer les normes comptables nationales et internationales, notamment IFRS ;
+Réaliser les liasses et les déclarations fiscales mensuelles et annuelles ;
+Analyser les comptes généraux de provisions, d’immobilisation et de haut de bilan ;
+Préparer les documents de synthèse pour les audits ;
+Transmettre aux commissaires aux comptes les données nécessaires ;
+Effectuer la saisie des écritures comptables ;
+Établir les déclarations fiscales et sociales ;
+Participer aux travaux d’inventaire et à l’élaboration des états financiers annuels ;
+Réaliser les rapprochements bancaires et le suivi des paiements fournisseurs.
+Compétences clés :
+Maîtrise du SYSCOHADA révisé ;
+Maîtrise des normes CPCC et OHADA ;
+Connaissance des logiciels comptables comme Banana Accounting, Sage ou Odoo ;
+Rigueur, organisation et respect strict des délais ;
+Capacité d’analyse et de synthèse ;
+Intégrité et discrétion professionnelle ;
+Comptabilité analytique, gestion fiscale et consolidation des états financiers.
+Profil recherché :
+Diplôme en comptabilité, gestion ou finances ;
+Bac+5 ou Master en comptabilité apprécié ;
+Expérience d’au moins cinq ans dans un poste similaire, de préférence dans un établissement financier ;
+Certificat de spécialisation CPCC constitue un atout majeur.`,
 };
+
+const LEGACY_HR_TITLE = ["Ressources", "Humaines"].join(" ");
 
 function initSchema() {
   const d = open();
@@ -244,7 +276,7 @@ function seedJobsIfEmpty() {
     "Auditeurs internes",
     "Informaticiens experts en réseaux",
     "Informaticiens experts en conception des systèmes",
-    "Ressources Humaines",
+    "Comptabilité",
   ];
 
   const ins = d.prepare(
@@ -275,6 +307,22 @@ function applyJobDescriptions() {
   const upd = d.prepare(`UPDATE jobs SET description = ? WHERE title = ?`);
 
   const tx = d.transaction(() => {
+    d.prepare(`
+      UPDATE jobs
+      SET title = 'Comptabilité',
+          department = 'Comptabilité',
+          description = ?
+      WHERE title = ?
+    `).run(JOB_DESCRIPTIONS["Comptabilité"], LEGACY_HR_TITLE);
+
+    const accounting = d.prepare(`SELECT id FROM jobs WHERE title = 'Comptabilité' LIMIT 1`).get();
+    if (!accounting) {
+      d.prepare(`
+        INSERT INTO jobs (title, department, location, description, isActive, createdAt)
+        VALUES ('Comptabilité', 'Comptabilité', 'Kinshasa', ?, 1, ?)
+      `).run(JOB_DESCRIPTIONS["Comptabilité"], nowISO());
+    }
+
     for (const [title, desc] of Object.entries(JOB_DESCRIPTIONS)) {
       if (!desc) continue;
       upd.run(String(desc), String(title));
@@ -307,14 +355,37 @@ function trackCode() {
 
 // PUBLIC
 function getJobs() {
+  const accountingDescription = JOB_DESCRIPTIONS["Comptabilité"];
   return open()
     .prepare(
-      `SELECT id, title, department, location, description
+      `SELECT
+         id,
+         CASE WHEN title = ? THEN 'Comptabilité' ELSE title END AS title,
+         CASE WHEN title = ? THEN 'Comptabilité' ELSE department END AS department,
+         location,
+         CASE
+           WHEN title = ? AND (description IS NULL OR description = '') THEN ?
+           ELSE description
+         END AS description
        FROM jobs
        WHERE isActive = 1
+         AND (
+           title <> ?
+           OR NOT EXISTS (
+             SELECT 1 FROM jobs AS accounting
+             WHERE accounting.title = 'Comptabilité'
+               AND accounting.isActive = 1
+           )
+         )
        ORDER BY title ASC`
     )
-    .all();
+    .all(
+      LEGACY_HR_TITLE,
+      LEGACY_HR_TITLE,
+      LEGACY_HR_TITLE,
+      accountingDescription,
+      LEGACY_HR_TITLE
+    );
 }
 
 function createApplication(payload) {

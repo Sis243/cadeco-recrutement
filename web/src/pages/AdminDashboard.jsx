@@ -274,7 +274,9 @@ export default function AdminDashboard() {
         try {
           const t = await res.text();
           if (t) msg = t;
-        } catch {}
+        } catch (readError) {
+          console.warn("PDF error response could not be read", readError);
+        }
         throw new Error(msg);
       }
 
